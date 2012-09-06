@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>eZGithub by martin-damien</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/martin-damien/eZGithub">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/martin-damien/eZGithub/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/martin-damien/eZGithub/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>eZGithub</h1>
+          <p>This extension allow you to list gists and repositories from Github to your eZ Publish website. It could display informations about users too.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/martin-damien">martin-damien</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>eZGithub</h1>
+
+<p>A companion extension for accessing your datas within eZ Publish.</p>
+
+<h2>Requirements</h2>
+
+<p>This extension need the following modules :</p>
+
+<ul>
+<li>php_curl</li>
+</ul><h2>Configuration</h2>
+
+<p>Configuration is made in <code>ezgithub.ini</code>. Please take a look at the original file in the settings folder of this extension.</p>
+
+<h2>Features</h2>
+
+<h3>User informations</h3>
+
+<p>You can access user informations by using this URL :</p>
+
+<blockquote>
+<p>/github-user/show</p>
+</blockquote>
+
+<p>or</p>
+
+<blockquote>
+<p>/github-user/show/username</p>
+</blockquote>
+
+<p>or within a template :</p>
+
+<div class="highlight"><pre><span class="cp">{</span><span class="nf">def</span> <span class="nv">$content</span> <span class="o">=</span> <span class="na">fetch</span><span class="o">(</span><span class="na">github</span><span class="o">-</span><span class="na">user</span><span class="o">,</span> <span class="na">content</span><span class="o">,</span> <span class="na">hash</span><span class="o">(</span><span class="na">username</span><span class="o">,</span> <span class="nv">$username</span><span class="o">))</span><span class="cp">}</span><span class="x"></span>
+</pre></div>
+
+<h3>Repositories (projects)</h3>
+
+<h4>List all projects for a given user</h4>
+
+<p>Get the list of all the projects for a given user with the following module and view :</p>
+
+<blockquote>
+<p>/github-project/list</p>
+</blockquote>
+
+<p>or</p>
+
+<blockquote>
+<p>/github-project/list/username</p>
+</blockquote>
+
+<p>or within a template :</p>
+
+<div class="highlight"><pre><span class="cp">{</span><span class="nf">def</span> <span class="nv">$list</span> <span class="o">=</span> <span class="na">fetch</span><span class="o">(</span><span class="na">github</span><span class="o">-</span><span class="na">project</span><span class="o">,</span> <span class="na">list</span><span class="o">,</span> <span class="na">hash</span><span class="o">(</span><span class="na">username</span><span class="o">,</span> <span class="nv">$username</span><span class="o">))</span><span class="cp">}</span><span class="x"></span>
+
+<span class="x">&lt;ul class="projects"&gt;</span>
+<span class="cp">{</span><span class="nf">foreach</span> <span class="nv">$list</span> <span class="na">as</span> <span class="nv">$project</span><span class="cp">}</span><span class="x"></span>
+<span class="x">    &lt;li&gt;</span>
+<span class="x">        &lt;a href=</span><span class="cp">{</span><span class="nf">concat</span><span class="o">(</span><span class="s1">'/github-project/show/'</span><span class="o">,</span> <span class="nv">$username</span><span class="o">,</span> <span class="s1">'/'</span><span class="o">,</span> <span class="nv">$project.name</span><span class="o">)|</span><span class="na">ezurl</span><span class="cp">}</span><span class="x">&gt;</span>
+<span class="x">            Link to the details.</span>
+<span class="x">        &lt;/a&gt;</span>
+<span class="x">    &lt;/li&gt;</span>
+<span class="cp">{</span><span class="nf">/foreach</span><span class="cp">}</span><span class="x"></span>
+<span class="x">&lt;/ul&gt;</span>
+</pre></div>
+
+<h4>Get all the informations about a repository (project)</h4>
+
+<p>Get the informations about a project with the following URL :</p>
+
+<blockquote>
+<p>/github-project/show/username/projectname</p>
+</blockquote>
+
+<p>or (if you want to use the configured username in INI file)</p>
+
+<blockquote>
+<p>/github-project/show/projectname</p>
+</blockquote>
+
+<p>or within a template :</p>
+
+<div class="highlight"><pre><span class="cp">{</span><span class="nf">def</span> <span class="nv">$content</span> <span class="o">=</span> <span class="na">fetch</span><span class="o">(</span><span class="na">github</span><span class="o">-</span><span class="na">project</span><span class="o">,</span> <span class="na">content</span><span class="o">,</span> <span class="na">hash</span><span class="o">(</span><span class="na">username</span><span class="o">,</span> <span class="nv">$username</span><span class="o">,</span> <span class="na">project</span><span class="o">,</span> <span class="nv">$project</span><span class="o">))</span><span class="cp">}</span><span class="x"></span>
+</pre></div>
+
+<h3>Gists</h3>
+
+<h4>Get all the gists for a given user</h4>
+
+<div class="highlight"><pre><span class="cp">{</span><span class="nf">def</span> <span class="nv">$gists</span> <span class="o">=</span> <span class="na">fetch</span><span class="o">(</span><span class="na">gist</span><span class="o">,</span> <span class="na">list</span><span class="o">)</span><span class="cp">}</span><span class="x"></span>
+
+<span class="x">&lt;ul class="gists"&gt;</span>
+<span class="cp">{</span><span class="nf">foreach</span> <span class="nv">$gists</span> <span class="na">as</span> <span class="nv">$gist</span><span class="cp">}</span><span class="x"></span>
+<span class="x">    &lt;li&gt;</span>
+<span class="x">        &lt;a href=</span><span class="cp">{</span><span class="nf">concat</span><span class="o">(</span><span class="s1">'gist/show/'</span><span class="o">,</span><span class="nv">$gist.id</span><span class="o">)|</span><span class="na">ezurl</span><span class="cp">}</span><span class="x">&gt;</span><span class="cp">{</span><span class="nv">$gist.description</span><span class="cp">}</span><span class="x">&lt;/a&gt;</span>
+<span class="x">    &lt;/li&gt;</span>
+<span class="cp">{</span><span class="nf">/foreach</span><span class="cp">}</span><span class="x"></span>
+<span class="x">&lt;/ul&gt;</span>
+</pre></div>
+
+<h4>Get all informations about a Gist</h4>
+
+<div class="highlight"><pre><span class="cp">{</span><span class="nf">def</span> <span class="nv">$content</span> <span class="o">=</span> <span class="na">fetch</span><span class="o">(</span><span class="na">gist</span><span class="o">,</span> <span class="na">content</span><span class="o">,</span> <span class="na">hash</span><span class="o">(</span><span class="na">gist_id</span><span class="o">,</span> <span class="nv">$gist_id</span><span class="o">))</span><span class="cp">}</span><span class="x"></span>
+</pre></div>
+
+<h2>Informations</h2>
+
+<h3>License</h3>
+
+<p>This extension is under GNU/GPL v3 : <a href="http://www.gnu.org/copyleft/gpl.html">View the license</a>.</p>
+
+<h3>API</h3>
+
+<p>This extension is currently based on : <a href="http://developer.github.com/v3/">API v3</a>.</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-34598938-3");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
